@@ -6,6 +6,7 @@ import { fetchimages } from './fetchimages.js';
 
 const form = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('#loader');
 
 const lightbox = new SimpleLightbox('.gallery a');
 
@@ -15,13 +16,8 @@ form.addEventListener('submit', async e => {
 
   if (!query) return;
 
-  const loaderCard = `
-    <div class="photo-card loader-card">
-      <div class="loader"></div>
-    </div>
-  `;
-
-  gallery.innerHTML = loaderCard.repeat(10);
+  gallery.innerHTML = '';
+  loader.classList.remove('hidden');
 
   try {
     const images = await fetchimages(query);
@@ -34,7 +30,6 @@ form.addEventListener('submit', async e => {
         backgroundColor: '#f00',
         messageColor: '#fff',
       });
-      gallery.innerHTML = '';
     } else {
       const markup = images.map(createImageCard).join('');
       gallery.innerHTML = markup;
@@ -45,7 +40,8 @@ form.addEventListener('submit', async e => {
       message: 'An error occurred while fetching images.',
       position: 'topRight',
     });
-    gallery.innerHTML = '';
+  } finally {
+    loader.classList.add('hidden');
   }
 });
 
