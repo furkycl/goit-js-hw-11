@@ -6,7 +6,6 @@ import { fetchimages } from './fetchimages.js';
 
 const form = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
-const loader = document.querySelector('#loader');
 
 const lightbox = new SimpleLightbox('.gallery a');
 
@@ -16,8 +15,13 @@ form.addEventListener('submit', async e => {
 
   if (!query) return;
 
-  gallery.innerHTML = '';
-  loader.classList.remove('hidden');
+  const loaderCard = `
+    <div class="photo-card loader-card">
+      <div class="loader"></div>
+    </div>
+  `;
+
+  gallery.innerHTML = loaderCard.repeat(10);
 
   try {
     const images = await fetchimages(query);
@@ -27,7 +31,10 @@ form.addEventListener('submit', async e => {
         message:
           'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
+        backgroundColor: '#f00',
+        messageColor: '#fff',
       });
+      gallery.innerHTML = '';
     } else {
       const markup = images.map(createImageCard).join('');
       gallery.innerHTML = markup;
@@ -38,8 +45,7 @@ form.addEventListener('submit', async e => {
       message: 'An error occurred while fetching images.',
       position: 'topRight',
     });
-  } finally {
-    loader.classList.add('hidden');
+    gallery.innerHTML = '';
   }
 });
 
@@ -48,10 +54,10 @@ function createImageCard(img) {
     <a href="${img.largeImageURL}" class="photo-card">
       <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
       <div class="info">
-        <p><b>Likes:</b> ${img.likes}</p>
-        <p><b>Views:</b> ${img.views}</p>
-        <p><b>Comments:</b> ${img.comments}</p>
-        <p><b>Downloads:</b> ${img.downloads}</p>
+        <p><b>Likes</b> ${img.likes}</p>
+        <p><b>Views</b> ${img.views}</p>
+        <p><b>Comments</b> ${img.comments}</p>
+        <p><b>Downloads</b> ${img.downloads}</p>
       </div>
     </a>
   `;

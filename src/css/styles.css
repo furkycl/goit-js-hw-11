@@ -34,7 +34,11 @@ input {
 }
 
 button {
-  padding: 8px 16px;
+  padding: 10px 16px;
+  background-color: #4e75ff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
 }
 
 #loader {
@@ -43,16 +47,25 @@ button {
   margin-bottom: 20px;
 }
 
+.photo-card.loader-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Görsel yüksekliğine eşit */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
 .loader {
   width: 48px;
   height: 48px;
   border: 5px solid #fff;
-  border-bottom-color: transparent;
+  border-bottom-color: #ff3d00;
   border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
   animation: rotation 1s linear infinite;
+  box-sizing: border-box;
 }
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -75,15 +88,18 @@ button {
 .gallery a {
   text-decoration: none;
   color: inherit;
+  border: 1px solid;
 }
 
 .gallery img {
-  width: 100%;
+  width: 360px;
+  height: 200px;
   display: block;
-  border-radius: 8px;
 }
 
 .info {
+  display: flex;
+  justify-content: space-between;
   font-size: 14px;
   margin-top: 5px;
 }
